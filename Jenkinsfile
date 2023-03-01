@@ -12,6 +12,7 @@ pipeline{
         }
         stage('upload artifact'){
             steps{
+                script{
                def mavenPom = readMavenPom file: 'pom.xml'
                nexusArtifactUploader artifacts:
                [[artifactId: "${mavenPom_artifactID}",
@@ -25,7 +26,10 @@ pipeline{
                        protocol: 'http',
                         repository: 'biom',
                          version: "${mavenPom.version}" 
+                }         
+            
             }
+
 
         }
         stage('list the dir'){

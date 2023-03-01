@@ -10,9 +10,20 @@ pipeline{
             }
 
         }
-        stage('check pwd'){
+        stage('upload artifact'){
             steps{
-                sh 'pwd'
+               nexusArtifactUploader artifacts:
+               [[artifactId: '${POM_ARTIFACTID}',
+                classifier: '',
+                 file: 'target/${POM_ARTIFACTID}-${POM_VERSION}.${POM_PACKAGING}',
+                  type: '${POM_PACKAGING}']],
+                   credentialsId: 'nexusID',
+                    groupId: '${POM_GROUPID}',
+                     nexusUrl: '198.58.98.193:8081',
+                      nexusVersion: 'nexus2',
+                       protocol: 'http',
+                        repository: 'biom',
+                         version: '${POM_VERSION}' 
             }
 
         }
